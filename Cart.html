@@ -1,0 +1,183 @@
+<html>
+    <header>
+        
+    </header>
+    <body style = "background-color: orangered;">
+        <table width = 100%>
+            <tr><td style="text-align: left;font-size:30px;"><header>Shopping : <img src="C:\Users\Mani Sri\Pictures\Saved Pictures\shop.jpg" alt="Image not Avaialable"> <div style="text-align: right;">Logged User : <input type = text readonly id = "loginname"style="height:30px;"></header>   </tr>
+            <tr><td style="font-size:40px;text-align: center;"> Cart Items</td></tr>
+        </table>
+    <script>
+        var uname = sessionStorage.getItem("username");    
+        document.getElementById("loginname").value = uname;
+    </script> 
+        <script>
+            var uname = sessionStorage.getItem("username");    
+           
+            var myArr ; 
+            var xmlhttp;
+            if(window.XMLHttpRequest){
+                xmlhttp = new XMLHttpRequest();
+            }    
+            xmlhttp.open('GET', 'http://localhost:3000/cart?username='+uname , true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function () { 
+
+                if (xmlhttp.readyState === 4 && this.status == 200) {
+                    myArr = JSON.parse(this.responseText);                                    
+                    len = myArr.length;
+                    
+                    if(len > 0){                                       
+                        var tab = document.getElementById("carttable");
+
+                        if(tab == null){
+                            var carttable = document.createElement("table");
+                            carttable.setAttribute("cellspacing",30);
+                            carttable.setAttribute("id", "carttable");
+                            carttable.setAttribute("align" ,"center");
+                            //carttable.setAttribute("border" ,"2");
+                            carttable.style.backgroundColor = "bisque";    
+                            for(var i=0; i<len;i++){
+                                //alert(myArr[i]);
+                                var prodid =  myArr[i].prodid;
+                                var prodname =  myArr[i].prodname;                                                
+                                var priceperunit =  myArr[i].prodprice;
+                                var desc =  myArr[i].proddesc;
+
+                                var carttr = document.createElement("tr");  
+
+                                var td1 = document.createElement("td");
+                                var td1text = document.createTextNode(prodname);
+                                td1.appendChild(td1text);
+
+                                var td2 = document.createElement("td");
+                                var td2text = document.createTextNode(priceperunit);
+                                td2.appendChild(td2text);
+
+                                var td3 = document.createElement("td");
+                                var td3text = document.createTextNode(desc);
+                                td3.appendChild(td3text); 
+
+                                var td4 = document.createElement("td");
+                                var td4text = document.createElement("input");
+                                td4text.type = "number";
+                                td4text.placeholder = "Enter number of units";
+                                td4text.step = 1;
+                                td4text.id = "units"+i;
+                                td4.appendChild(td4text); 
+
+                                var td5 = document.createElement("td");
+                                var td5text = document.createElement("input");
+                                td5text.type = "number";                                
+                                td5.appendChild(td5text); 
+
+                                var td6 = document.createElement("td");
+                                var td6btn = document.createElement("button");
+                                var td6text = document.createTextNode("Calculate total amt");                                                              
+                                td6btn.appendChild(td6text); 
+                                td6.appendChild(td6btn); 
+                                td6btn.onclick = function () {
+                                    var datatr = this.parentElement.parentElement;
+                                    
+                                    var price = datatr.cells[1].innerText;
+                                    var units = datatr.cells[3].children[0].value;
+                                    //alert(price * units);
+                                    var total = price * units;
+                                    datatr.cells[4].children[0].value = total;
+                                }
+
+
+                              
+                                var dltbtn = document.createElement("button");                            
+                                var dltbtntext = document.createTextNode("Delete from cart");                
+                                dltbtn.appendChild(dltbtntext);
+                                dltbtn.onclick = function () {
+                                    var datatr = this.parentElement;                                                                     
+                                    var xmlhttp;
+                                    if(window.XMLHttpRequest){
+                                        xmlhttp = new XMLHttpRequest();
+                                    }    
+                                    
+                                    xmlhttp.open('DELETE', 'http://localhost:3000/cart/'+cartid , true);
+                                    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                    xmlhttp.send();
+                                    xmlhttp.onreadystatechange = function () { 
+
+                                    if (this.status == 200) {
+                                        alert("Deleted from cart");           
+                                    }
+                                    };
+                                }
+                            
+                                carttr.appendChild(td0);
+                                carttr.appendChild(td1);
+                                carttr.appendChild(td2);
+                                carttr.appendChild(td3);
+                                carttr.appendChild(td4);
+                                carttr.appendChild(td5);
+                                carttr.appendChild(td6);
+                                carttr.appendChild(dltbtn);
+
+                                carttable.appendChild(carttr);
+                            }    
+                            document.body.appendChild(carttable);                                                      
+                            
+                            var ordbtn = document.createElement("button");
+                            var ordtext = document.createTextNode("Make Order");   
+                            ordbtn.appendChild(ordtext);
+                            ordbtn.setAttribute("class" ,"button");
+                            ordbtn.addEventListener('click' , function(){
+                                var table = document.getElementById("carttable");                                
+                                var rowcount = table.rows.length;  
+                                var amtPayable = 0 ;                           
+                                for (var i = 0; i < rowcount; i++) {                              
+                                    var row = table.rows[i]; 
+                                    var unitsVal = row.cells[4].children[0].value;                                   
+                                    if(unitsVal == ""){
+                                        alert("Enter units for all items.");
+                                        return false;
+                                    }else{
+                                        var datatr = row;                                                                         
+                                        var priceVal = datatr.cells[2].innerText;
+                                        var unitsVal = datatr.cells[4].children[0].value;                                        
+                                        var totalVal = priceVal * unitsVal;
+                                        datatr.cells[5].children[0].value = totalVal;
+                                        amtPayable = amtPayable + totalVal;
+                                    }
+                                }
+                                alert("AmtPayable ::"+amtPayable);
+                                //Generate OrderNumber
+                                    var min = 0; var max = 550000000;  
+                                    var str1 = uname.substring(0,3);                                  
+                                    var str2 = uname.substring(uname.length-3,uname.length);                                  
+                                    var orderNumber =  Math.floor(Math.random() * (max - min + 1)) + min;
+                                    orderNumber = orderNumber+str1+str2;
+                               
+                                var xmlhttp;
+                                if(window.XMLHttpRequest){
+                                    xmlhttp = new XMLHttpRequest();
+                                }    
+                                var datetoday = new Date();
+                                var obj = {username : uname, totalprice: amtPayable , ordereddate : datetoday, orderNumber : orderNumber};
+                                xmlhttp.open('POST', 'http://localhost:3000/order' , true);
+                                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                xmlhttp.send(JSON.stringify(obj));
+                                xmlhttp.onreadystatechange = function () {
+                                    sessionStorage.setItem("orderNumber", orderNumber);
+                                    if (this.status == 200) {
+                                        alert("Ordered successfully");  
+                                                
+                                    }
+                                    window.location.href = "OrderSuccess.html"; 
+                                };
+                            });
+                            document.body.appendChild(ordbtn);
+                        }                        
+                    }
+                }
+            }; 
+    </script>
+        
+    </body>
+</html>

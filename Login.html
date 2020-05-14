@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            User Login
+        </title>
+<style>
+ body {
+            background-color: #cccccc;
+  background-image: radial-gradient(red, yellow, green);
+}
+</style>
+        <script type="text/javascript" src="scripts/loginForm.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+    </head>
+    <body  onLoad = "resetForm()">
+        <h1 style="text-align:center;">Login User</h1>
+        
+            <form id = "regform" method = "post"style="text-align:center;"onsubmit="return ValidateUsername() || ValidateMobilenumber() || ValidateEmail() || ValidateAddress() " >
+                <label for="username">User Name:</label><br>
+                <input type="text" id="username" name="username"style="width:250px;height:30px" placeholder = "Enter username" autocomplete="on" autofocus required ><br>
+                <label for="password">Password:</label><br>
+                <input type="text" id="password" name="password"style="width:250px;height:30px" placeholder = "Enter password" autocomplete="on" required ><br>
+                
+                   <br>    <input type = button  style="width:200px;color:brown;height:30px;"value = " Login" onClick= "submitForm()" style="width:100px;height:35px;">
+                        
+                   
+            </form>    
+        </table> 
+        <script>          
+            function resetForm(){               
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";                           
+            }
+            function submitForm(){                
+                var username = document.getElementById("username").value;   
+                var password = document.getElementById("password").value;             
+                sessionStorage.setItem("username",username);                                        
+                var len = 0;
+                var myArr ; 
+                var xmlhttp;
+                if(window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }    
+                xmlhttp.open('GET', 'http://localhost:3000/user?username='+username , true);
+                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && this.status == 200) {
+                        myArr = JSON.parse(this.responseText);                                    
+                        len = myArr.length;                        
+                        var passworcheckwith = myArr[0].password;
+                        if(passworcheckwith == password){
+                            window.location.href = "Products.html";
+                        }
+                        else{
+                            alert("Invalid password. Try again");
+                            document.getElementById("password").value = "";
+                        }
+                    }
+                }; 
+            }   
+        </script>   
+    </body>
+</html>    
+
+

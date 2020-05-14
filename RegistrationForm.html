@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>
+            User Registration
+        </title>  
+        <script type="text/javascript" src="scripts/signupForm.js"></script>
+
+    </head>
+    <body style="background-color : #cccccc;background-image: radial-gradient(red, yellow);"onLoad = "resetForm()">
+        <h1 style="text-align:center;">User Registration</h1>
+        <form style="text-align:center;"id = "regform" method = "post" onsubmit="return ValidateUsername() || ValidateMobilenumber() || ValidateEmail() || ValidateAddress() ">
+                <label for="username">User Name:</label><br>
+                <input type="text" id="username" name="username"style="width:250px;height:30px" placeholder = "Enter username" autocomplete="on" autofocus required ><br>
+              
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email"style="width:250px;height:30px" placeholder = "Enter Email" pattern="\w+([-+.]\w+)*@(dbs\.com|hcl\.com)" required title="Email should be HCL or DBS domain" ><br>
+              
+                <label for="mobilenumber">Mobile Number:</label><br>
+                <input type="number" id="mobilenumber" name="mobilenumber"style="width:250px;height:30px" placeholder = "Enter Number" step = "2" required ><br>
+              
+                <label for="password">Password:</label><br>
+                <input type="text" id="password" name="password"style="width:250px;height:30px" placeholder = "Enter password" autocomplete="on" required ><br>
+              
+                <label for="address">Address:</label><br>
+                <input type="textarea" style="width:250px;height:100px" placeholder = "Enter Address"  id="address" name="address" required ><br><br>
+                <input type = submit value = "Submit"  style="width:120px;height:35px;color:blueviolet"onClick= "submitForm()">
+                <input type = button value = "Reset" style="width:120px;height:35px;color:blueviolet" onClick="resetForm()">
+
+            </form>    
+       
+        <script>
+            function resetForm(){               
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                document.getElementById("email").value="";
+                document.getElementById("mobilenumber").value="";
+                document.getElementById("address").value="";
+                
+            }
+            function submitForm(){
+                alert("submitting..");
+                var name = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var email = document.getElementById("email").value; 
+                var number = document.getElementById("mobilenumber").value; 
+                var address = document.getElementById("address").value; 
+                alert(name+"..."+password+"..."+email+"...."+number+".........."+address);
+                var obj = {username : name , password :password, email : email, mobilenumber : number , address : address};
+                alert(obj.username);
+                console.log(obj);
+                var xmlhttp;
+                if(window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }    
+                xmlhttp.open('POST', 'http://localhost:3000/user' , true);
+                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xmlhttp.send(JSON.stringify(obj));
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && this.status == 200) {
+                        alert("Added user");           
+                    }
+                };
+            }
+    
+        </script>   
+    </body>
+</html>    

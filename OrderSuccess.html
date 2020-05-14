@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Order Success</title>
+</head>
+
+    <body style="background-color : #cccccc;background-image: radial-gradient(brown, green);"">
+<h1 style="text-align:center;color:brown"> Order Success</h1>
+        <table width = 100%>
+            <tr><td> style="text-align:left"><header>OrdersImage : <img src="C:\Users\Mani Sri\Pictures\Saved Pictures\user.png" alt="Image not available"> <div style="text-align:right">Logged  User : <input type = text readonly id = "loginname"></header>   </tr>
+         
+        </table>
+        <h2 style="color : blue;text-align:center;">Order placed Successfully</h2>
+       
+        <h2 style="color : blue;text-align:center;">OrderNumber is : <input type=  text id = "ordernumber"></h2>
+
+        <script>
+            var ordernumber = sessionStorage.getItem("orderNumber");
+          
+            document.getElementById("ordernumber").value = ordernumber;
+            var uname = sessionStorage.getItem("username");    
+            document.getElementById("loginname").value = uname;
+        </script>
+    </body>
+
+</html>

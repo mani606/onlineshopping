@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+. carttr {
+    background-color: bisque;
+     width: 700px%; 
+     height: 200px; 
+}
+.button {
+  background-color: pink;
+  border: none;
+  color: red;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+aside {
+  width: 20%; 
+  height: 700px; 
+  float: left;  
+  background-color: pink;
+}
+</style>
+</head>
+<body style = " background-color:pink;" onLoad = "getProducts()">
+       
+<table width = 100%>
+        <tr><td style="text-align: left;"><header>User Image : <img src="C:\Users\Mani Sri\Pictures\Saved Pictures\user.png" alt="Image not available"style="widht:35px;height:20px;"> <div style="text-align:right">Logged UserName : <input type = text readonly id = "loginname"></header>   </tr>
+</table>
+<script>
+    var uname = sessionStorage.getItem("username");    
+    document.getElementById("loginname").value = uname;
+</script> 
+<table width = 80% >
+    <tr>
+        <td>
+            <aside>
+                 <form>
+                    <table>
+                        <tr><td><input type = button class = "button" value = " Products List" onClick = "getProducts()"></td></tr>
+                        <tr><td><input type = button class = "button" value = "Cart Items" onClick = "openCartItems()"></td></tr>
+                        <tr><td><input type = button class = "button" value = "Previous Order" onClick = "previousOrders()"></td></tr>
+                    </table>
+                </form>
+            </aside>
+        </td>
+               <td style = "background-color: lightskyblue;" id = "prodtd">
+                <script>
+                       function getProducts(){
+                           
+                            var len = 0;
+                            var myArr ; 
+                            var xmlhttp;
+                            if(window.XMLHttpRequest){
+                                xmlhttp = new XMLHttpRequest();
+                            }    
+                            xmlhttp.open('GET', 'http://localhost:3000/product' , true);
+                            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                            xmlhttp.send();
+                            xmlhttp.onreadystatechange = function () { 
+
+                                if (xmlhttp.readyState === 4 && this.status == 200) {
+                                    myArr = JSON.parse(this.responseText);                                    
+                                    len = myArr.length;
+                                    
+                                    if(len > 0){                                       
+                                        var tab = document.getElementById("producttable");
+             
+                                        if(tab == null){
+                                            var prodtable = document.createElement("table");
+                                            prodtable.setAttribute("cellspacing",30);
+                                            prodtable.setAttribute("id", "producttable");
+                                            prodtable.setAttribute("align" ,"center");
+                                          
+                                            for(var i=0; i<len;i++){
+                                                var prodid =  myArr[i].id;
+                                                var prodname =  myArr[i].name;                                                
+                                                var priceperunit =  myArr[i].priceperunit;
+                                                var desc =  myArr[i].desc;
+                                                var prodtr = document.createElement("tr");                                                
+
+                                                var tdi = document.createElement("td");
+                                                var prodimg = document.createElement("img");
+                                                prodimg.setAttribute("src" , "../Saved Pictures/photo.png");
+                                                tdi.appendChild(prodimg);
+
+                                                var td0 = document.createElement("td");
+                                                var td0text = document.createTextNode(prodid);
+                                                td0.appendChild(td0text);
+
+                                                var td1 = document.createElement("td");
+                                                var td1text = document.createTextNode(prodname);
+                                                td1.appendChild(td1text);
+
+                                                var td2 = document.createElement("td");
+                                                var td2text = document.createTextNode(priceperunit);
+                                                td2.appendChild(td2text);
+
+                                                var td3 = document.createElement("td");
+                                                var td3text = document.createTextNode(desc);
+                                                td3.appendChild(td3text);
+
+                                                var td4 = document.createElement("td");
+                                                var addbutton = document.createElement("button");                                                                                               
+                                                var td4text = document.createTextNode("Add to Cart");
+                                                addbutton.appendChild(td4text);
+                                                td4.appendChild(addbutton);
+                                                addbutton.onclick = function () {
+                                                    var datatr = this.parentElement.parentElement;                                                    
+                                                    var sessionprodid = datatr.cells[0].innerText;                                                    
+                                                    var sessionprodname = datatr.cells[2].innerText;  
+                                                    var sessionprodprice = datatr.cells[3].innerText;
+                                                    var sessionproddesc = datatr.cells[4].innerText;
+                                                    var username =  document.getElementById("loginname").value;    
+                                                    //Add to Cart    
+                                                    var xmlhttp;
+                                                    if(window.XMLHttpRequest){
+                                                        xmlhttp = new XMLHttpRequest();
+                                                    }    
+                                                    xmlhttp.open('POST', 'http://localhost:3000/cart' , true);
+                                                    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                                    var obj = {username : username,prodid : sessionprodid, prodname : sessionprodname, prodprice : sessionprodprice, proddesc : sessionproddesc};
+                                                    xmlhttp.send(JSON.stringify(obj));
+                                                    xmlhttp.onreadystatechange = function () {
+                                                   
+                                                    if (this.status == 200) {
+                                                        alert("Added to cart");           
+                                                    }
+                                                    };    
+                                                   
+                                                  
+                                                }
+
+                                                var td5 = document.createElement("td");
+                                                var td5text = document.createTextNode("Rating : 4.5");
+                                                td5.appendChild(td5text);
+                                                
+                                                prodtr.appendChild(td0);
+                                                prodtr.appendChild(tdi);
+                                                prodtr.appendChild(td1);
+                                                prodtr.appendChild(td2);
+                                                prodtr.appendChild(td3);
+                                                prodtr.appendChild(td4);
+                                                prodtr.appendChild(td5);
+                                                prodtable.appendChild(prodtr);
+                                            }
+                                            var prodtd = document.getElementById("prodtd");
+                                            prodtd.appendChild(prodtable);
+                                            
+                                        }    
+                                        
+                                    }
+                                }
+                            };    
+                       }
+
+                       function openCartItems (){
+                        window.location.href = "Cart.html";
+                       }
+                       function previousOrders(){
+                        window.location.href = "PreviousOrders.html";
+                        
+                       } 
+                </script>    
+               </td>
+
+</body>
+</html> 
+

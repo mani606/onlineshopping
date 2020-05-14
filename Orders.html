@@ -1,0 +1,82 @@
+<html>
+    
+    <body style = "background-color: lightpink;">
+        <table width = 100%>
+            <tr><td style="text-align:left;"><header>Shopping Details : <img src="C:\Users\Mani Sri\Pictures\Saved Pictures\shopping.jpg" alt="Image not avalable"> <div align = "right">Logged User : <input type = text readonly id = "loginname"></header>   </tr>
+            <tr><td  style="text-align:center;color:brown;font-size: 20px;">Previous Orders</td></tr>    
+        </table>
+    <script>
+        var uname = sessionStorage.getItem("username");    
+        document.getElementById("loginname").value = uname;
+
+        var len = 0;
+        var myArr ; 
+        var xmlhttp;
+        if(window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        }    
+        xmlhttp.open('GET', 'http://localhost:3000/order?username='+uname , true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === 4 && this.status == 200) {
+                myArr = JSON.parse(this.responseText);                                    
+                len = myArr.length;
+              
+                if(len > 0){                                       
+                    var tab = document.getElementById("ordertable");
+
+                    if(tab == null){
+                        var ordertable = document.createElement("table");
+                        ordertable.setAttribute("cellspacing",30);
+                        ordertable.setAttribute("id", "producttable");
+                        ordertable.setAttribute("align" ,"center");
+                        
+                        ordertable.style.backgroundColor = "bisque";
+                        for(var i=0; i<len; i++){
+                            var prodname =  myArr[i].productname;                                                
+                            var priceperunit =  myArr[i].priceperunit;
+                            var price =  myArr[i].price;                                                
+                            var units =  myArr[i].units;
+                            var date = myArr[i].ordereddate;
+
+                            var ordertr = document.createElement("tr"); 
+
+                            var td1 = document.createElement("td");
+                            var td1text = document.createTextNode(prodname);
+                            td1.appendChild(td1text);
+
+                            var td2 = document.createElement("td");
+                            var td2text = document.createTextNode(priceperunit);
+                            td2.appendChild(td2text);
+
+                            var td3 = document.createElement("td");
+                            var td3text = document.createTextNode(price);
+                            td3.appendChild(td3text);
+
+                            var td4 = document.createElement("td");
+                            var td4text = document.createTextNode(units);
+                            td4.appendChild(td4text);
+
+                            var td5 = document.createElement("td");
+                            var td5text = document.createTextNode(date);
+                            td5.appendChild(td5text);
+
+                            ordertr.appendChild(td1);
+                            ordertr.appendChild(td2);
+                            ordertr.appendChild(td3);
+                            ordertr.appendChild(td4);
+                            ordertr.appendChild(td5);
+
+                            ordertable.appendChild(ordertr);
+
+                        }
+                        document.body.appendChild(ordertable);
+                    }
+                }
+            }
+        }; 
+    </script> 
+    </body>
+</html>           
+

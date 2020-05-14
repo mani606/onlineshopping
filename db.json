@@ -1,0 +1,208 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "Mani",
+      "mobilenumber": "9214356789",
+      "email": "mani@hcl.com",
+      "password": "Mani@123",
+      "address": "kphb"
+    },
+    {
+      "id": 2,
+      "username": "akhila",
+      "mobilenumber": "8243856888",
+      "email": "akhila@hcl.com",
+      "password": "Akhi@20",
+      "address": "kphb"
+    },
+    {
+      "id": 3,
+      "username": "Jay",
+      "mobilenumber": "9124567890",
+      "email": "jayr@hcl.com",
+      "password": "Jay@123",
+      "address": "uppal"
+    },
+    {
+      "username": "",
+      "password": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "id": 4
+    },
+    {
+      "username": "",
+      "password": "",
+      "email": "",
+      "mobilenumber": "",
+      "address": "",
+      "id": 5
+    },
+    {
+      "username": "admin",
+      "password": "",
+      "email": "",
+      "mobilenumber": "",
+      "address": "",
+      "id": 6
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "name": "ipad",
+      "priceperunit": 20000,
+      "desc": "This is samsung ipad"
+    },
+    {
+      "id": 2,
+      "name": "mobile",
+      "priceperunit": 15000,
+      "desc": "This is samsung mobile"
+    },
+    {
+      "id": 3,
+      "name": "laptop",
+      "priceperunit": 35000,
+      "desc": "This is hp laptop"
+    }
+  ],
+  "cart": [
+    {
+      "username": "Mani",
+      "prodid": "2",
+      "prodname": "mobile",
+      "prodprice": "15000",
+      "proddesc": "This is samsung mobile",
+      "id": 1
+    },
+    {
+      "username": "Jay",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 2
+    },
+    {
+      "username": "Mani",
+      "prodid": "3",
+      "prodname": "laptop",
+      "prodprice": "35000",
+      "proddesc": "This is hp laptop",
+      "id": 3
+    },
+    {
+      "username": "Mani",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 4
+    },
+    {
+      "username": "Mani",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 5
+    },
+    {
+      "username": "Mani",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 6
+    },
+    {
+      "username": "Mani",
+      "prodid": "2",
+      "prodname": "mobile",
+      "prodprice": "15000",
+      "proddesc": "This is samsung mobile",
+      "id": 7
+    },
+    {
+      "username": "Mani",
+      "prodid": "2",
+      "prodname": "mobile",
+      "prodprice": "15000",
+      "proddesc": "This is samsung mobile",
+      "id": 8
+    },
+    {
+      "username": "Mani",
+      "prodid": "3",
+      "prodname": "laptop",
+      "prodprice": "35000",
+      "proddesc": "This is hp laptop",
+      "id": 9
+    },
+    {
+      "username": "Mani",
+      "prodid": "3",
+      "prodname": "laptop",
+      "prodprice": "35000",
+      "proddesc": "This is hp laptop",
+      "id": 10
+    },
+    {
+      "username": "Mani",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 11
+    },
+    {
+      "username": "Mani",
+      "prodid": "1",
+      "prodname": "ipad",
+      "prodprice": "20000",
+      "proddesc": "This is samsung ipad",
+      "id": 12
+    }
+  ],
+  "order": [
+    {
+      "username": "Mani",
+      "productname": "mobile",
+      "priceperunit": "15000",
+      "units": "3",
+      "price": "45000",
+      "ordereddate": "2020-05-12T12:44:52.444Z",
+      "id": 1
+    },
+    {
+      "username": "Mani",
+      "productname": "mobile",
+      "priceperunit": "15000",
+      "units": "2",
+      "price": "30000",
+      "ordereddate": "2020-05-12T12:49:53.772Z",
+      "id": 2
+    },
+    {
+      "username": "Mani",
+      "productname": "mobile",
+      "priceperunit": "15000",
+      "units": "1",
+      "price": "15000",
+      "ordereddate": "2020-05-12T12:55:12.876Z",
+      "id": 3
+    },
+    {
+      "username": "Mani",
+      "productname": "mobile",
+      "priceperunit": "15000",
+      "units": "1",
+      "price": "15000",
+      "ordereddate": "2020-05-13T10:59:53.187Z",
+      "id": 4
+    }
+  ]
+}
